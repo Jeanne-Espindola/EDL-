@@ -1,8 +1,9 @@
 #include<stdlib.h>
+#include <stdio.h>
 
 struct elem{
-    int valor;
-    Elem* prox;
+    int valor; //aqui vai ser o que vai ser armazenado na nossa lista, pode ser uma struct, um vetor etc
+    struct elem* prox;
 };
 typedef struct elem Elem;
 
@@ -12,7 +13,7 @@ struct lista{
 };
 typedef struct lista* Lista;
 
-Lista criar_lista(Lista li){
+Lista criar_lista(){
     Lista li = malloc(sizeof(struct lista));
     if(li != NULL){
         li->qtd = 0;
@@ -118,13 +119,101 @@ int destruir(Lista li){ //pode remover do final pro inicio ou do inicio pro fina
     Elem* aux = li->inicio;
     while(aux->prox != NULL){
         Elem* ant = aux; //pra n perder a referencia do anterior.
-        aux = aux->prox
+        aux = aux->prox;
         free(ant);
     }
     free(aux);
     free(li);
 }
 
+int quantidadeDaLista(Lista li){
+    if(li == NULL){
+        return 0;
+    }
+    return li->qtd;
+}
+
+
+
+int buscar_por_posicao(Lista li, int posicao){
+    if(li == NULL){
+        return 0;
+    }
+   if(posicao > li->qtd || posicao <= 0){
+        return 0;
+   }
+   Elem* aux = li->inicio; //guarda o valor do inicio
+   for(int i = 0; i < posicao; i++){
+        aux = aux->prox;
+   }
+   return aux->valor;
+}
+
+int busca_por_valor(Lista li, int valorBuscado){
+    if(li == NULL){
+        return 0;
+    }
+    Elem* aux = li->inicio;
+    for(int i = 0; i < li->qtd; i++){
+        if(aux->valor == valorBuscado){
+            return aux->valor;
+        }
+        aux = aux->prox;
+    }}
+    return 0;
+}
+
 //falta esses dois abaixo (prof vai da posteriormente)
 // buscar_por_valor
 // buscar_por_posicao
+
+
+int main(){
+    Lista li = criar_lista();
+    inserir_final(li, 10);
+    inserir_final(li, 50);
+    inserir_final(li, 15);
+    inserir_inicio(li, 40);
+    inserir_inicio(li, 70);
+    inserir_inicio(li, 100);
+
+    int inicio = acessar_inicio(li);
+    printf("\nInicio da lista: %d", inicio);
+
+    void imprimir_lista(Lista li){
+        if(li->qtd == 0){
+            return;
+        }
+        Elem* aux = li->inicio; //guarda o endereco do inicio
+         //o inicio recebe o proximo valor
+        for(int i = 0; i < li->qtd; i++){
+            printf("\n[%d]", aux->valor);
+            aux = aux->prox;
+        }
+        printf("NULL\n");
+    }
+
+
+
+    imprimir_lista(li);
+
+    void imprimir_lista(Lista li){ //apenas utilizando as funções ja existentes.
+        int qtd = quantidadeDaLista(li);
+        if(qtd == 0){
+            return;
+        }
+        Elem* aux = acessar_inicio(li); //anterior
+        for(int i = 0; i < qtd; i++){
+            printf("\n[%d]", consulta_por_pos(li, i));
+        }
+    }
+
+
+
+
+
+
+
+
+    return 0;
+}
